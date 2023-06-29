@@ -32,6 +32,15 @@ const obterResultado = (request, response) => {
 
 const cadastrar = (request, response) => {
     const { nome, boletim } = request.body
+
+    if (!nome || typeof nome !== "string") {
+        return response.status(400).send({ mensagem: 'O campo nome é obrigatório e deve ser informado por caracteres.' })
+    }
+
+    if (!boletim || typeof boletim !== 'object' || Array.isArray(boletim)) {
+        return response.status(400).send({ mensagem: 'O campo boletim é obrigatório e deve ser informado pela matéria e sua nota.' })
+    }
+
     const boletimModel = { id: crypto.randomUUID(), nome, boletim }
     boletins.push(boletimModel)
     response.status(200).send(boletimModel)
@@ -39,6 +48,16 @@ const cadastrar = (request, response) => {
 
 const atualizar = (request, response) => {
     const id = request.params.id
+    const { nome, boletim } = request.body
+
+    if (nome && typeof nome !== "string") {
+        return response.status(400).send({ mensagem: 'O campo nome deve ser informado por caracteres.' })
+    }
+
+    if (boletim && (typeof boletim !== 'object' || Array.isArray(boletim))) {
+        return response.status(400).send({ mensagem: 'O campo boletim deve ser informado pela matéria e sua nota.' })
+    }
+
     const boletimModel = boletins.find(boletim => boletim.id == id)
     if (boletimModel) {
         Object.keys(boletimModel).forEach(key => {
