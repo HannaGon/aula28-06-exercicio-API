@@ -17,3 +17,51 @@ ingles: aprovado
 - DELETE: deleta cadastro
 
 Não se esqueça do express (npm i express), cors (npm i cors) e .gitignore!
+
+### Acessando as rotas do Boletim
+
+- Exibe todos os resultados:
+```sh
+GET http://localhost:8080/api/boletim
+```
+
+- Exibe por ID:
+```sh
+GET http://localhost:8080/api/boletim/{id}
+```
+
+- Exibe nome do aluno, matéria e se passou ou não:
+```sh
+GET http://localhost:8080/api/boletim/{id}/resultado
+```
+
+- Cria novo cadastro:
+```sh
+POST http://localhost:8080/api/boletim
+```
+```json
+{
+	"nome": "Nome",
+	"boletim": {
+		"matematica": 10,
+		"portugues": 10,
+		"historia": 10,
+		"ingles": 10
+	}
+}
+```
+
+- Altera cadastro:
+```sh
+PATCH http://localhost:8080/api/boletim/{id}
+```
+```json
+{
+   "nome": "Nome"
+}
+```
+
+- Deleta cadastro:
+```sh
+DELETE http://localhost:8080/api/boletim/{id}
+```
