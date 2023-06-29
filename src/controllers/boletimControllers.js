@@ -24,17 +24,28 @@ const exibeTodos = async(req,res)=>{
     }
 }
         //to do
+// const exibePorId = async(req,res)=>{
+//     const cadastro = await db()
+//     const { id } = req.params
+//     try {
+//         const alunoEncontrado = cadastro.find(aluno=>aluno.id==id)
+//         if (alunoEncontrado==undefined){
+//             res.status(404).send({message: `Não foi encontrado cadastro para ID ${id}`})
+//         }
+//         res.status(200).send(alunoEncontrado)
+//     } catch (error) {
+//         res.status(500).send({ message: error.message})
+//     }
+// }
+        //COM MONGO
 const exibePorId = async(req,res)=>{
-    const cadastro = await db()
-    const { id } = req.params
     try {
-        const alunoEncontrado = cadastro.find(aluno=>aluno.id==id)
-        if (alunoEncontrado==undefined){
-            res.status(404).send({message: `Não foi encontrado cadastro para ID ${id}`})
-        }
-        res.status(200).send(alunoEncontrado)
+        const boletimEncontrado=await boletimSchema.findById(req.params.id)
+        res.status(200).json(boletimEncontrado)
     } catch (error) {
-        res.status(500).send({ message: error.message})
+        res.status(500).json({
+            message: error.message
+        })
     }
 }
         //to do
@@ -125,8 +136,9 @@ const criaCadastro = async(req,res)=>{
 // }
         //COM MONGO
 const alteraCadastro = async(req,res)=>{
-    const boletimEncontrado = await boletimSchema.findById(req.params.id)
     const { nome, boletim } =req.body[0]
+    try {
+        const boletimEncontrado = await boletimSchema.findById(req.params.id)
     if (!boletimEncontrado){
         return res.status(404).send({
             message: "não encontrado"
@@ -139,6 +151,11 @@ const alteraCadastro = async(req,res)=>{
     if(boletim.ingles) boletimEncontrado.boletim.ingles=boletim.ingles
     const salvarBoletim = await boletimEncontrado.save()
     res.status(200).json({boletimEncontrado: salvarBoletim})
+    } catch (error) {
+        res.status(500).json({
+            message: error.message
+        })
+    }
 }
 
 // const deletaCadastro = async(req,res)=>{
