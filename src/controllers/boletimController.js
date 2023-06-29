@@ -15,7 +15,7 @@ const obterPorId = (request, response) => {
     }
 }
 
-const obterTodosResultado = (request, response) => {
+const obterResultado = (request, response) => {
     const requestId = request.params.id
     const boletim = boletins.find(boletim => boletim.id == requestId)
     if (boletim) {
@@ -70,7 +70,7 @@ const deletar = (request, response) => {
 module.exports = {
     obterTodos,
     obterPorId,
-    obterTodosResultado,
+    obterResultado,
     cadastrar,
     atualizar,
     deletar
