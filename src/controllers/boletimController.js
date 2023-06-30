@@ -34,11 +34,11 @@ const cadastrar = (request, response) => {
     const { nome, boletim } = request.body
 
     if (!nome || typeof nome !== "string") {
-        return response.status(400).send({ mensagem: 'O campo nome é obrigatório e deve ser informado por caracteres.' })
-    }
-
-    if (!boletim || typeof boletim !== 'object' || Array.isArray(boletim)) {
-        return response.status(400).send({ mensagem: 'O campo boletim é obrigatório e deve ser informado pela matéria e sua nota.' })
+        return response.status(400).send({ mensagem: "O campo nome é obrigatório e deve ser informado por caracteres." })
+    } else if (!boletim || typeof boletim !== "object" || Array.isArray(boletim)) {
+        return response.status(400).send({ mensagem: "O campo boletim é obrigatório e deve ser informado pela matéria e sua nota." })
+    } else if (!Object.values(boletim).every(nota => typeof nota === "number")) {
+        return response.status(400).send({ mensagem: "Todos os valores no boletim devem ser números." })
     }
 
     const boletimModel = { id: crypto.randomUUID(), nome, boletim }
@@ -51,11 +51,11 @@ const atualizar = (request, response) => {
     const { nome, boletim } = request.body
 
     if (nome && typeof nome !== "string") {
-        return response.status(400).send({ mensagem: 'O campo nome deve ser informado por caracteres.' })
-    }
-
-    if (boletim && (typeof boletim !== 'object' || Array.isArray(boletim))) {
-        return response.status(400).send({ mensagem: 'O campo boletim deve ser informado pela matéria e sua nota.' })
+        return response.status(400).send({ mensagem: "O campo nome deve ser informado por caracteres." })
+    } else if (boletim && (typeof boletim !== "object" || Array.isArray(boletim))) {
+        return response.status(400).send({ mensagem: "O campo boletim deve ser informado pela matéria e sua nota." })
+    } else if (boletim && !Object.values(boletim).every(nota => typeof nota === "number")) {
+        return response.status(400).send({ mensagem: "Todos os valores no boletim devem ser números." })
     }
 
     const boletimModel = boletins.find(boletim => boletim.id == id)
