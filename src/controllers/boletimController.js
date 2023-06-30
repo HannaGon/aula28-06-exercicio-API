@@ -43,7 +43,7 @@ const cadastrar = (request, response) => {
 
     const boletimModel = { id: crypto.randomUUID(), nome, boletim }
     boletins.push(boletimModel)
-    response.status(200).send(boletimModel)
+    response.status(201).send(boletimModel)
 }
 
 const atualizar = (request, response) => {
